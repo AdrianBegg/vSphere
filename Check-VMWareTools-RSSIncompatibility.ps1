@@ -13,11 +13,12 @@
 # and if the RSS Feature has been enabled on the guestCredentials
 ##########################################################################################
 [string] $strvCenter = "labvc1.pigeonnuggets.com"
+Connect-VIServer $strvCenter
+
 $vms = Get-VM
 $guestCredentials = Get-Credential
 
-Connect-VIServer $strvCenter
-$colVMs = $vms | ?{($_.ExtensionData.Config.Tools.ToolsVersion -gt "9100") -and ($_.ExtensionData.Config.Tools.ToolsVersion -lt "10150") -and (($_ | Get-NetworkAdapter).Type -contains "Vmxnet3") -and ($_.ExtensionData.Guest.GuestId -eq "windows8Server64Guest")}
+$colVMs = $vms | ?{($_.ExtensionData.Config.Tools.ToolsVersion -gt "9100") -and ($_.ExtensionData.Config.Tools.ToolsVersion -lt "10150") -and (($_ | Get-NetworkAdapter).Type -contains "Vmxnet3") -and (($_.ExtensionData.Guest.GuestId -eq "windows8Server64Guest") -or ($_.ExtensionData.Guest.GuestId -eq "windows9Server64Guest"))}
 foreach($vm in $colVMs){
 	# Check if the machine is PoweredOn
 	If($vm.PowerState -eq "PoweredOn"){
