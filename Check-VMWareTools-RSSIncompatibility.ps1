@@ -32,3 +32,4 @@ foreach($vm in $colVMs){
 		$vm | Select Name,@{name="ToolsVersion"; expression={$_.ExtensionData.Config.Tools.ToolsVersion}}, @{name="Guest"; expression={$_.ExtensionData.Guest.GuestFullName}}, @{name="RSSEnabled"; expression={"Unknown"}}
 	}
 }
+Disconnect-VIServer
